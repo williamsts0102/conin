@@ -177,7 +177,7 @@ class _LoginFormState extends State<_LoginForm> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),
                   ),
-                  disabledColor: Colors.purple,
+                  disabledColor: Colors.blueAccent,
                   elevation: 1,
                   onPressed: loginProvider.isLoading
                       ? null
