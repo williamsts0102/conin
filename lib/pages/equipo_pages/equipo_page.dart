@@ -11,6 +11,16 @@ class Contacto extends StatelessWidget {
      appBar: AppBar(
           backgroundColor: Colors.black,
         title:Text('Información de equipo', style: TextStyle(color: Colors.white),),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(
+            Icons.arrow_back,
+            color: Colors.red,
+          ),
+        ),
+      
         ),
         body: Container(
           color: Colors.grey[200],
