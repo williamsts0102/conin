@@ -61,7 +61,7 @@ class _LoginPageConinState extends State<LoginPageConin> {
                   ),
                   Text.rich(
                     TextSpan(
-                      text: '¿No tienes cuenta?',
+                      text: '¿No tienes una cuenta?',
                       style: const TextStyle(color: Colors.black),
                       children: [
                         TextSpan(

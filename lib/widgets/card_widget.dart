@@ -21,7 +21,7 @@ class CardCustom extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       child: SizedBox(
-        height: 170,
+        height: 180,
         child: Card(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -29,7 +29,8 @@ class CardCustom extends StatelessWidget {
               Row(
                 children: [
                   SizedBox(
-                    width: 250,
+                    width: 350,
+                    height: 120,
                     child: ListTile(
                       leading: leading,
                       title: title,
@@ -42,12 +43,18 @@ class CardCustom extends StatelessWidget {
                       IconButton(
                         splashRadius: 10,
                         onPressed: () => onPressedActualizar!(),
-                        icon: const Icon(Icons.update),
+                        icon: const Icon(
+                          Icons.edit,
+                          color: Colors.green,
+                        ),
                       ),
                       IconButton(
                         splashRadius: 10,
                         onPressed: () => onPressedBorrar!(),
-                        icon: const Icon(Icons.delete),
+                        icon: const Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ),
                       ),
                     ],
                   ),

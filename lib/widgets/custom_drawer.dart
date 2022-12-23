@@ -9,26 +9,18 @@ class CustomDrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Colors.white,
       child: Column(
         children: [
           const DrawerHeader(
             decoration: BoxDecoration(
               image: DecorationImage(
-                fit: BoxFit.fill,
-                image: NetworkImage(
-                  'https://cdn.pixabay.com/photo/2020/02/08/00/32/icon-4828765_960_720.jpg',
+                image: AssetImage(
+                  'assets/logotipo/logotipo.png',
                 ),
               ),
             ),
-            child: Center(
-              child: Text(
-                'CONIN',
-                style: TextStyle(
-                  fontSize: 26,
-                  color: Colors.white,
-                ),
-              ),
-            ),
+            child: Center(),
           ),
           ListTile(
             leading: const Icon(Icons.home),
@@ -44,13 +36,20 @@ class CustomDrawerWidget extends StatelessWidget {
               Navigator.pushReplacementNamed(context, MyRoutes.rPerfil);
             },
           ),
-          // ListTile(
-          //   leading: const Icon(Icons.settings),
-          //   title: const Text('Configuracion'),
-          //   onTap: () {
-          //     Navigator.pushReplacementNamed(context, MyRoutes.rAjuste);
-          //   },
-          // ),
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text('Configuracion'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, MyRoutes.rAjuste);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.help),
+            title: const Text('Ayuda'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, MyRoutes.rAyuda);
+            },
+          ),
         ],
       ),
     );
