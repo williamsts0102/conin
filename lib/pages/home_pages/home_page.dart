@@ -44,7 +44,9 @@ class HomePageConin extends StatelessWidget {
                 ),
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, '/inventario');
+            },
           ),
           InkWell(
             child: Container(
@@ -106,7 +108,9 @@ class HomePageConin extends StatelessWidget {
                 ),
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, '/equipo');
+            },
           ),
           InkWell(
             child: Container(
