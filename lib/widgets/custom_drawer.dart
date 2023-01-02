@@ -50,6 +50,13 @@ class CustomDrawerWidget extends StatelessWidget {
               Navigator.pushReplacementNamed(context, MyRoutes.rAyuda);
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.exit_to_app),
+            title: const Text('Cerrar Sesion'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, MyRoutes.rLogin);
+            },
+          ),
         ],
       ),
     );

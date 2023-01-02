@@ -1,19 +1,18 @@
 import 'package:conin/routes/route.dart';
-import 'package:conin/services/service_login.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:conin/providers/provider_login.dart';
 
-class LoginPageConin extends StatefulWidget {
-  const LoginPageConin({super.key});
+class RegisterPageConin extends StatefulWidget {
+  const RegisterPageConin({super.key});
 
   @override
-  State<LoginPageConin> createState() => _LoginPageConinState();
+  State<RegisterPageConin> createState() => _RegisterPageConinState();
 }
 
-class _LoginPageConinState extends State<LoginPageConin> {
+class _RegisterPageConinState extends State<RegisterPageConin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,13 +43,6 @@ class _LoginPageConinState extends State<LoginPageConin> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    width: 300,
-                    height: 205,
-                    child: Lottie.asset('assets/lottie/login_conin.json'),
-                    // child: Image.network(
-                    //     'https://cdn.pixabay.com/photo/2022/12/12/12/58/dog-7651002_960_720.jpg'),
-                  ),
                   const SizedBox(
                     height: 0,
                   ),
@@ -63,11 +55,11 @@ class _LoginPageConinState extends State<LoginPageConin> {
                   ),
                   Text.rich(
                     TextSpan(
-                      text: '¿No tienes una cuenta?',
+                      text: '¿Ya tienes una cuenta?',
                       style: const TextStyle(color: Colors.black),
                       children: [
                         TextSpan(
-                          text: ' Registrate',
+                          text: ' Inicia Sesion',
                           style: const TextStyle(
                             color: Colors.red,
                             fontWeight: FontWeight.bold,
@@ -75,7 +67,7 @@ class _LoginPageConinState extends State<LoginPageConin> {
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               Navigator.pushReplacementNamed(
-                                  context, MyRoutes.rRegister);
+                                  context, MyRoutes.rLogin);
                               // Navigator.pushNamed(context, MyRoutes.rHome);
                             },
                         ),
@@ -117,6 +109,56 @@ class _LoginFormState extends State<_LoginForm> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
+              const SizedBox(
+                height: 20,
+              ),
+              const Text(
+                'Crear Cuenta',
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                style: const TextStyle(color: Colors.black),
+                autocorrect: false,
+                keyboardType: TextInputType.name,
+                decoration: _builDecoration(
+                  hintText: 'Nombre Completo',
+                  prefixIcon: const Icon(Icons.person, color: Colors.black),
+                ),
+                onChanged: (value) => loginProvider.email = value,
+                validator: (value) {
+                  String caracteres = r'^[a-zA-Z][a-zA-Z ]*[a-zA-Z]$';
+                  RegExp regExp = RegExp(caracteres);
+                  return regExp.hasMatch(value ?? '')
+                      ? null
+                      : 'No es un correo valido';
+                },
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              TextFormField(
+                style: const TextStyle(color: Colors.black),
+                autocorrect: false,
+                keyboardType: TextInputType.name,
+                decoration: _builDecoration(
+                  hintText: 'Codigo de Equipo',
+                  prefixIcon: const Icon(Icons.group, color: Colors.black),
+                ),
+                onChanged: (value) => loginProvider.email = value,
+                validator: (value) {
+                  String caracteres = r'^[a-zA-Z][a-zA-Z ]*[a-zA-Z]$';
+                  RegExp regExp = RegExp(caracteres);
+                  return regExp.hasMatch(value ?? '')
+                      ? null
+                      : 'No es un correo valido';
+                },
+              ),
+              const SizedBox(
+                height: 15,
+              ),
               TextFormField(
                 style: const TextStyle(color: Colors.black),
                 autocorrect: false,
@@ -164,7 +206,7 @@ class _LoginFormState extends State<_LoginForm> {
                 },
               ),
               const SizedBox(
-                height: 15,
+                height: 25,
               ),
               SizedBox(
                 height: 60,
@@ -180,30 +222,22 @@ class _LoginFormState extends State<_LoginForm> {
                       ? null
                       : () async {
                           FocusScope.of(context).unfocus();
-
-                          final loginConinService =
-                              Provider.of<LoginConinService>(context,
-                                  listen: false);
                           if (!loginProvider.isValidForm()) return;
 
                           loginProvider.isLoading = true;
-
-                          final String? errorMessage =
-                              await loginConinService.loginUser(
-                                  loginProvider.email, loginProvider.password);
-                          if (errorMessage == null) {
-                            // ignore: use_build_context_synchronously
-                            Navigator.pushReplacementNamed(
-                                context, MyRoutes.rHome);
-                          } else {
-                            loginProvider.isLoading = false;
-                          }
+                          await Future.delayed(
+                            const Duration(seconds: 2),
+                          );
+                          loginProvider.isLoading = false;
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushReplacementNamed(
+                              context, MyRoutes.rHome);
                         },
                   child: (loginProvider.isLoading)
                       ? const CircularProgressIndicator(
                           color: Colors.white,
                         )
-                      : const Text('INGRESAR',
+                      : const Text('REGISTRAR',
                           style: TextStyle(color: Colors.white)),
                   // const Text(
                   //   'INGRESAR',

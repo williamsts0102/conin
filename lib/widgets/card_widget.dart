@@ -29,7 +29,7 @@ class CardCustom extends StatelessWidget {
               Row(
                 children: [
                   SizedBox(
-                    width: 350,
+                    width: 300,
                     height: 120,
                     child: ListTile(
                       leading: leading,

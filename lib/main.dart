@@ -1,4 +1,7 @@
 import 'package:conin/routes/route.dart';
+import 'package:conin/services/service_categoria.dart';
+import 'package:conin/services/service_login.dart';
+import 'package:conin/services/service_producto.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:conin/providers/provider_login.dart';
@@ -8,6 +11,15 @@ void main() {
     MultiProvider(providers: [
       ChangeNotifierProvider(
         create: (_) => ProviderLogin(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => LoginConinService(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => CategoriaService(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => ProductoService(),
       ),
     ], child: const MyApp()),
   ); // runApp(const MyApp());

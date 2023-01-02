@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class MyRoutes {
   static const String rLogin = '/login';
+  static const String rRegister = '/register';
   static const String rHome = '/home';
   static const String rPerfil = '/perfil';
   static const String rAjuste = '/ajuste';
@@ -15,6 +16,8 @@ class MyRoutes {
     switch (settings.name) {
       case ('/login'):
         return MaterialPageRoute(builder: (_) => const LoginPageConin());
+      case ('/register'):
+        return MaterialPageRoute(builder: (_) => const RegisterPageConin());
       case ('/home'):
         return MaterialPageRoute(builder: (_) => const HomePageConin());
       case ('/perfil'):
