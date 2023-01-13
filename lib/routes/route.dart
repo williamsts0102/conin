@@ -30,8 +30,13 @@ class MyRoutes {
         return MaterialPageRoute(builder: (_) => const InventarioPageConin());
       case ('/vermasinventario'):
         return MaterialPageRoute(builder: (_) => const VerMasInventarioConin());
+      case ('/venta'):
+        return MaterialPageRoute(builder: (_) => const VentaPageConin());
+      case ('/carrito'):
+        return MaterialPageRoute(builder: (_) => const CarritoPageConin());
       case ('/equipo'):
         return MaterialPageRoute(builder: (_) => const EquipoPageConin());
+
       default:
         return MaterialPageRoute(builder: (_) => const LoginPageConin());
     }

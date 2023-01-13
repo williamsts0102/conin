@@ -77,7 +77,9 @@ class HomePageConin extends StatelessWidget {
                 ),
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, '/venta');
+            },
           ),
           InkWell(
             child: Container(

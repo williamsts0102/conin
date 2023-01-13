@@ -1,3 +1,4 @@
+import 'package:conin/config/config.dart';
 import 'package:conin/models/producto_model.dart';
 import 'package:conin/services/service_login.dart';
 import 'package:flutter/material.dart';
@@ -39,32 +40,70 @@ class ProductoService extends ChangeNotifier {
     };
 
     final Map<String, dynamic> parameter = {
-      'codequipo': 'eq.txfabsdg',
+      'codequipo': 'eq.$codequipoUser',
     };
     final url = (Uri.parse(baseUrl)).replace(queryParameters: parameter);
 
     final response = await http.get(url, headers: header);
     final List<dynamic> productosList = json.decode(response.body);
     print('Esto es codeq $codequipoUser');
-    final Map<String, dynamic> productosMap = {};
-    for (int i = 0; i < productosList.length; i++) {
-      productosMap[i.toString()] = productosList[i];
-    }
+    // final Map<String, dynamic> productosMap = {};
+    // for (int i = 0; i < productosList.length; i++) {
+    //   productosMap[i.toString()] = productosList[i];
+    // }
     print('esto es productosList $productosList');
-    print('esto es productosMap $productosMap');
-    productosMap.forEach((key, value) {
-      final productoTemporal = Producto.fromMap(value);
-      productoTemporal.codproducto = int.parse(key);
+    // print('esto es productosMap $productosMap');
+    for (int i = 0; i < productosList.length; i++) {
+      final productoTemporal = Producto.fromMap(productosList[i]);
+      productoTemporal.codproducto = productosList[i]['codproducto'];
       productos.add(productoTemporal);
-      print('Esto es codeq $codequipoUser');
-    });
+    }
+    // productosMap.forEach((key, value) {
+    //   final productoTemporal = Producto.fromMap(value);
+    //   productoTemporal.codproducto = int.parse(key);
+    //   productos.add(productoTemporal);
+    //   print('Esto es codeq $codequipoUser');
+    // });
     // categoriasMap.forEach((key, value) {
     //   final String categoriaTemporal = Categoria.fromMap(value);
     //   categorias.add(categoriaTemporal);
     // });
     print('Esto es codeq $codequipoUser');
     isLoading = false;
+    print('esto es productosList $productosList');
     notifyListeners();
     return productos;
+  }
+
+  Future<String> actualizarCantidadProducto(
+      int codproducto, int canproducto, int canprodudv) async {
+    final String msg;
+    final Map<String, String> header = {
+      'apikey': CredencialesConin.supabasekey,
+      'Authorization': CredencialesConin.supabaseauth,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal'
+    };
+    final int acantidad = canproducto - canprodudv;
+    final body = jsonEncode({
+      "canproducto": acantidad,
+    });
+
+    final Map<String, dynamic> parameter = {
+      'codproducto': 'eq.$codproducto',
+    };
+    final url = (Uri.parse(baseUrl)).replace(queryParameters: parameter);
+
+    final response = await http.post(url, body: body, headers: header);
+
+    if (response.statusCode != 201) {
+      print('MSG => NO SE GUARDO CORRECTAMENTE');
+      msg = 'NO SE GUARDO CORRECTAMENTE';
+    } else {
+      print('MSG =>  SE GUARDO CORRECTAMENTE');
+      msg = ' SE GUARDO CORRECTAMENTE';
+    }
+    notifyListeners();
+    return msg;
   }
 }

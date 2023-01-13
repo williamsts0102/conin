@@ -36,6 +36,7 @@ class Producto {
       );
 
   Map<String, dynamic> toMap() => {
+        "codcategoria": codcategoria,
         "preventa": preventa,
         "precompra": precompra,
         "canproducto": canproducto,

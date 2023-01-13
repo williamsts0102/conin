@@ -1,9 +1,9 @@
 import 'package:conin/routes/route.dart';
+import 'package:conin/services/service_login.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:conin/providers/provider_login.dart';
+import 'package:conin/providers/provider_register.dart';
 
 class RegisterPageConin extends StatefulWidget {
   const RegisterPageConin({super.key});
@@ -47,8 +47,8 @@ class _RegisterPageConinState extends State<RegisterPageConin> {
                     height: 0,
                   ),
                   ChangeNotifierProvider(
-                    create: (context) => ProviderLogin(),
-                    child: _LoginForm(),
+                    create: (context) => ProviderRegister(),
+                    child: _RegisterForm(),
                   ),
                   const SizedBox(
                     height: 50,
@@ -66,9 +66,7 @@ class _RegisterPageConinState extends State<RegisterPageConin> {
                           ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Navigator.pushReplacementNamed(
-                                  context, MyRoutes.rLogin);
-                              // Navigator.pushNamed(context, MyRoutes.rHome);
+                              Navigator.pushReplacementNamed(context, '/login');
                             },
                         ),
                       ],
@@ -84,12 +82,12 @@ class _RegisterPageConinState extends State<RegisterPageConin> {
   }
 }
 
-class _LoginForm extends StatefulWidget {
+class _RegisterForm extends StatefulWidget {
   @override
-  State<_LoginForm> createState() => _LoginFormState();
+  State<_RegisterForm> createState() => _RegisterFormState();
 }
 
-class _LoginFormState extends State<_LoginForm> {
+class _RegisterFormState extends State<_RegisterForm> {
   bool _ispassowrd = true;
 
   void _viewPassword() {
@@ -100,11 +98,11 @@ class _LoginFormState extends State<_LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    final loginProvider = Provider.of<ProviderLogin>(context);
+    final registerProvider = Provider.of<ProviderRegister>(context);
 
     return SizedBox(
       child: Form(
-        key: loginProvider.formkey,
+        key: registerProvider.formkey,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -127,7 +125,7 @@ class _LoginFormState extends State<_LoginForm> {
                   hintText: 'Nombre Completo',
                   prefixIcon: const Icon(Icons.person, color: Colors.black),
                 ),
-                onChanged: (value) => loginProvider.email = value,
+                onChanged: (value) => registerProvider.nombre = value,
                 validator: (value) {
                   String caracteres = r'^[a-zA-Z][a-zA-Z ]*[a-zA-Z]$';
                   RegExp regExp = RegExp(caracteres);
@@ -147,7 +145,7 @@ class _LoginFormState extends State<_LoginForm> {
                   hintText: 'Codigo de Equipo',
                   prefixIcon: const Icon(Icons.group, color: Colors.black),
                 ),
-                onChanged: (value) => loginProvider.email = value,
+                onChanged: (value) => registerProvider.codequipo = value,
                 validator: (value) {
                   String caracteres = r'^[a-zA-Z][a-zA-Z ]*[a-zA-Z]$';
                   RegExp regExp = RegExp(caracteres);
@@ -167,7 +165,7 @@ class _LoginFormState extends State<_LoginForm> {
                   hintText: 'Email',
                   prefixIcon: const Icon(Icons.email, color: Colors.black),
                 ),
-                onChanged: (value) => loginProvider.email = value,
+                onChanged: (value) => registerProvider.email = value,
                 validator: (value) {
                   String caracteres =
                       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -198,7 +196,7 @@ class _LoginFormState extends State<_LoginForm> {
                     ),
                   ),
                 ),
-                onChanged: (value) => loginProvider.password = value,
+                onChanged: (value) => registerProvider.password = value,
                 validator: (value) {
                   return (value != null && value.length >= 8)
                       ? null
@@ -218,22 +216,32 @@ class _LoginFormState extends State<_LoginForm> {
                   ),
                   disabledColor: Colors.blueAccent,
                   elevation: 1,
-                  onPressed: loginProvider.isLoading
+                  onPressed: registerProvider.isLoading
                       ? null
                       : () async {
                           FocusScope.of(context).unfocus();
-                          if (!loginProvider.isValidForm()) return;
+                          final registerConinService =
+                              Provider.of<LoginConinService>(context,
+                                  listen: false);
+                          if (!registerProvider.isValidForm()) return;
 
-                          loginProvider.isLoading = true;
-                          await Future.delayed(
-                            const Duration(seconds: 2),
-                          );
-                          loginProvider.isLoading = false;
-                          // ignore: use_build_context_synchronously
-                          Navigator.pushReplacementNamed(
-                              context, MyRoutes.rHome);
+                          registerProvider.isLoading = true;
+                          // ignore: unnecessary_nullable_for_final_variable_declarations
+                          final String? errorMessage =
+                              await registerConinService.registerUser(
+                                  registerProvider.nombre,
+                                  registerProvider.codequipo,
+                                  registerProvider.email,
+                                  registerProvider.password);
+
+                          if (errorMessage == null) {
+                            // ignore: use_build_context_synchronously
+                            Navigator.pushReplacementNamed(context, '/login');
+                          } else {
+                            registerProvider.isLoading = false;
+                          }
                         },
-                  child: (loginProvider.isLoading)
+                  child: (registerProvider.isLoading)
                       ? const CircularProgressIndicator(
                           color: Colors.white,
                         )

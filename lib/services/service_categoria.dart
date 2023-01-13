@@ -27,6 +27,8 @@ class CategoriaService extends ChangeNotifier {
 
   CategoriaService() {
     listarCategorias();
+    print('Esto es listarCategorias $listarCategorias()');
+    print('Esto es listarCategorias.toString() $listarCategorias.toString()');
   }
 
   Future<List<Categoria>> listarCategorias() async {
@@ -46,23 +48,19 @@ class CategoriaService extends ChangeNotifier {
     final response = await http.get(url, headers: header);
     final List<dynamic> categoriasList = json.decode(response.body);
     print('Esto es codeq $codequipoUser');
-    final Map<String, dynamic> categoriasMap = {};
+    // final Map<String, dynamic> categoriasMap = {};
+    // for (int i = 0; i < categoriasList.length; i++) {
+    //   categoriasMap[i.toString()] = categoriasList[i];
+    // }
+    print('esto es categoriasList $categoriasList');
+    // print('esto es cagetogirasmap $categoriasMap');
     for (int i = 0; i < categoriasList.length; i++) {
-      categoriasMap[i.toString()] = categoriasList[i];
+      final categoriaTemporal = Categoria.fromMap(categoriasList[i]);
+      categoriaTemporal.codcategoria = categoriasList[i]['codcategoria'];
+      categorias.add(categoriaTemporal);
     }
     print('esto es categoriasList $categoriasList');
-    print('esto es cagetogirasmap $categoriasMap');
-    categoriasMap.forEach((key, value) {
-      final categoriaTemporal = Categoria.fromMap(value);
-      categoriaTemporal.codcategoria = int.parse(key);
-      categorias.add(categoriaTemporal);
-      print('Esto es codeq $codequipoUser');
-    });
-    // categoriasMap.forEach((key, value) {
-    //   final String categoriaTemporal = Categoria.fromMap(value);
-    //   categorias.add(categoriaTemporal);
-    // });
-    print('Esto es codeq $codequipoUser');
+
     isLoading = false;
     notifyListeners();
     return categorias;
